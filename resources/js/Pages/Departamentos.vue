@@ -15,13 +15,13 @@ defineProps({ departamentos: Object })
 const showModalExcluir = ref(false)
 const showModalEditar = ref(false)
 
-const usuarioSelecionado = ref(null)
+const departamentoSelecionado = ref(null)
 const nome = ref('')
 const modoEdicao = ref(false)
 
 // Abrir modal de criação
 const abrirModalNovo = () => {
-  usuarioSelecionado.value = null
+  departamentoSelecionado.value = null
   nome.value = ''
   modoEdicao.value = false
   showModalEditar.value = true
@@ -29,7 +29,7 @@ const abrirModalNovo = () => {
 
 // Abrir modal de edição
 const abrirModalEditar = (departamento) => {
-  usuarioSelecionado.value = departamento
+  departamentoSelecionado.value = departamento
   nome.value = departamento.name
   modoEdicao.value = true
   showModalEditar.value = true
@@ -44,7 +44,7 @@ const confirmarEdicao = () => {
 
   if (modoEdicao.value) {
     // edição
-    router.put(`departamentos/${usuarioSelecionado.value.id}`, payload, {
+    router.put(`departamentos/${departamentoSelecionado.value.id}`, payload, {
       onSuccess: () => {
           showModalEditar.value = false
         },
@@ -68,12 +68,17 @@ const confirmarEdicao = () => {
 }
 
 const abrirModalExcluir = (departamento) => {
-  usuarioSelecionado.value = departamento
+  departamentoSelecionado.value = departamento
   showModalExcluir.value = true
 }
 
 const confirmarExclusao = () => {
-  console.log('excluir')
+  router.delete(`/departamentos/${departamentoSelecionado.value.id}`, {
+    onSuccess: () => {
+      showModalExcluir.value = false
+      departamentoSelecionado.value = null
+    }
+  })
 }
 
 const goToPage = (url) => {
@@ -97,7 +102,7 @@ const goToPage = (url) => {
   :show="showModalExcluir"
   @close="showModalExcluir = false"
   @confirmar="confirmarExclusao"
-  :nome="usuarioSelecionado?.name"
+  :nome="departamentoSelecionado?.name"
   />
 
   <ModalEditarDepartamentos 
