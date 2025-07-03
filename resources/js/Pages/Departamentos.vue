@@ -16,23 +16,38 @@ const showModalExcluir = ref(false)
 const showModalEditar = ref(false)
 
 const usuarioSelecionado = ref(null)
+const nome = ref('')
 const modoEdicao = ref(false)
 
 // Abrir modal de criação
 const abrirModalNovo = () => {
+  usuarioSelecionado.value = null
+  nome.value = ''
   modoEdicao.value = false
   showModalEditar.value = true
 }
 
 // Abrir modal de edição
-const abrirModalEditar = () => {
+const abrirModalEditar = (departamento) => {
+  console.log(departamento)
   modoEdicao.value = true
   showModalEditar.value = true
 }
 
 // Confimar criação ou edição
-const confirmarEdicao = (departamento) => {
-  console.log('Criar ou Editar')
+const confirmarEdicao = () => {
+
+  const payload = { name: nome.value }
+
+  router.post(`/departamentos`, payload, {
+    onSuccess: () => {
+        showModalEditar.value = false
+      },
+      onError: (errors) => {
+        console.log(errors)
+    }
+  })
+  
 }
 
 const abrirModalExcluir = (departamento) => {
@@ -53,6 +68,14 @@ const goToPage = (url) => {
 
   <Head title="Departamentos" />
 
+  <div v-if="$page.props.flash.success" class="mb-4 text-green-600 font-medium">
+    {{ $page.props.flash.success }}
+  </div>
+
+  <div v-if="$page.props.flash.error" class="mb-4 text-red-600 font-medium">
+    {{ $page.props.flash.error }}
+  </div>
+
   <ModalConfirmarExclusao 
   :show="showModalExcluir"
   @close="showModalExcluir = false"
@@ -65,6 +88,7 @@ const goToPage = (url) => {
     @close="showModalEditar = false"
     :modo-edicao="modoEdicao"
     @confirmar="confirmarEdicao"
+    v-model:nome="nome"
   />
 
   <div class="bg-white p-4 shadow sm:rounded-lg sm:p-8">
