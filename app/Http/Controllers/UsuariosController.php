@@ -21,28 +21,22 @@ class UsuariosController extends Controller
 
     public function index()
     {
-        // test paginate SEM OS DELETADOS
+        // paginate SEM OS DELETADOS
         $usuarios = User::orderBy('id')->paginate(10);
 
-        // Com os DELETADOS
-        // $usuarios = User::withTrashed()
-        //     ->orderBy('name')
-        //     ->paginate(10);
+        // paginate Com os DELETADOS
+        // $usuarios = User::withTrashed()->orderBy('name')->paginate(10);
+
+        // Formatar o campo created_at antes de enviar
+        $usuarios->getCollection()->transform(function ($user) {
+            $user->created_at_formatted = $user->created_at->format('d/m/Y H:i');
+            return $user;
+        });
 
         return Inertia::render('Usuarios', [
             'usuarios' => $usuarios
         ]);
     }
-
-    // public function list()
-    // {
-    //     $usuarios = User::all();
-
-    //     return response()->json([
-    //         'success' => true,
-    //         'data' => $usuarios,
-    //     ]);
-    // }
 
     public function store(StoreUsuarioRequest $request)
     {

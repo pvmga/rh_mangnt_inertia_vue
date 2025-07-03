@@ -22,7 +22,7 @@ const props = defineProps({
         <tr v-for="dept in departamentos" :key="dept.id">
           <td class="px-6 py-4">{{ dept.id }}</td>
           <td class="px-6 py-4">{{ dept.name }}</td>
-          <td class="px-6 py-4">{{ dept.created_at }}</td>
+          <td class="px-6 py-4">{{ dept.created_at_formatted }}</td>
           <td class="px-6 py-4 text-right">
             <template v-if="dept.id !== 1">
               <button @click="$emit('editar', dept)" class="text-indigo-600 hover:underline mr-3">Editar</button>
