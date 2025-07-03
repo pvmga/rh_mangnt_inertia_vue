@@ -29,7 +29,8 @@ const abrirModalNovo = () => {
 
 // Abrir modal de edição
 const abrirModalEditar = (departamento) => {
-  console.log(departamento)
+  usuarioSelecionado.value = departamento
+  nome.value = departamento.name
   modoEdicao.value = true
   showModalEditar.value = true
 }
@@ -38,15 +39,31 @@ const abrirModalEditar = (departamento) => {
 const confirmarEdicao = () => {
 
   const payload = { name: nome.value }
+  // console.log(modoEdicao.value)
+  // console.log(nome.value)
 
-  router.post(`/departamentos`, payload, {
-    onSuccess: () => {
-        showModalEditar.value = false
-      },
-      onError: (errors) => {
-        console.log(errors)
-    }
-  })
+  if (modoEdicao.value) {
+    // edição
+    router.put(`departamentos/${usuarioSelecionado.value.id}`, payload, {
+      onSuccess: () => {
+          showModalEditar.value = false
+        },
+        onError: (errors) => {
+          console.log(errors)
+      }
+    })
+  } else {
+    // novo registro
+    router.post(`/departamentos`, payload, {
+      onSuccess: () => {
+          showModalEditar.value = false
+        },
+        onError: (errors) => {
+          console.log(errors)
+      }
+    })
+  }
+
   
 }
 
@@ -89,6 +106,7 @@ const goToPage = (url) => {
     :modo-edicao="modoEdicao"
     @confirmar="confirmarEdicao"
     v-model:nome="nome"
+    :nome="nome"
   />
 
   <div class="bg-white p-4 shadow sm:rounded-lg sm:p-8">

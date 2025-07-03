@@ -9,6 +9,7 @@
         <div>
           <label class="block text-sm font-medium text-gray-700">Nome</label>
           <input
+            :value="nome"
             type="text"
             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
             @input="emit('update:nome', $event.target.value)"
@@ -33,6 +34,7 @@ import Modal from '@/Components/Modal.vue'
 
 const props = defineProps({
   show: Boolean,
+  nome: String,
   modoEdicao: Boolean
 })
 
