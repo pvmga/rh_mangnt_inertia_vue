@@ -10,28 +10,19 @@ class DepartamentosController extends Controller
 {
     public function index()
     {
-        // test paginate SEM OS DELETADOS
+        // paginate SEM OS DELETADOS
         $departamentos = Departamentos::orderBy('id')->paginate(10);
 
-        // Com os DELETADOS
-        // $usuarios = User::withTrashed()
-        //     ->orderBy('name')
-        //     ->paginate(10);
+        // Formatar o campo created_at antes de enviar
+        $departamentos->getCollection()->transform(function ($dpto) {
+            $dpto->created_at_formatted = $dpto->created_at->format('d/m/Y H:i');
+            return $dpto;
+        });
 
         return Inertia::render('Departamentos', [
             'departamentos' => $departamentos
         ]);
     }
-
-    // public function list()
-    // {
-    //     $departamentos = Departamentos::all();
-
-    //     return response()->json([
-    //         'success' => true,
-    //         'data' => $departamentos,
-    //     ]);
-    // }
 
     public function store(Request $request)
     {

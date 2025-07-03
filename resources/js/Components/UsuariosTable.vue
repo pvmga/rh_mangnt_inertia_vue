@@ -14,7 +14,8 @@ const props = defineProps({
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email
+                    </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Criado em
                     </th>
                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Ações
@@ -26,7 +27,7 @@ const props = defineProps({
                     <td class="px-6 py-4">{{ usu.id }}</td>
                     <td class="px-6 py-4">{{ usu.name }}</td>
                     <td class="px-6 py-4">{{ usu.email }}</td>
-                    <td class="px-6 py-4">{{ usu.created_at }}</td>
+                    <td class="px-6 py-4">{{ usu.created_at_formatted }}</td>
                     <td class="px-6 py-4 text-right">
                         <template v-if="usu.id !== 1">
                             <button @click="$emit('editar', usu)"
