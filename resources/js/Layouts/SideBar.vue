@@ -30,7 +30,7 @@ const navClass = (pathFragment) => {
                 </li>
                 
                 <li>
-                    <Link :href="route('financeiro')" :class="navClass('/financeiro')">
+                    <Link :href="route('financeiro.index')" :class="navClass('/financeiro')">
                     <i class="fa-solid fa-money-bill-wave"></i>
                     Financeiro
                     </Link>

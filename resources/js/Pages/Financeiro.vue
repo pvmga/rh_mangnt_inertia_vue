@@ -5,6 +5,9 @@ import { Head } from '@inertiajs/vue3';
 defineOptions({
     layout: AppLayout
 })
+
+const props = defineProps({ financeiro: Object })
+// console.log(props.financeiro)
 </script>
 
 <template>
@@ -15,7 +18,7 @@ defineOptions({
         <header>
             <section>
                 <h2 class="text-lg font-medium text-gray-900">
-                    Financeiro
+                    {{ $props.financeiro?.Texto }}
                 </h2>
                 <p>Conteúdo da página inicial aqui...</p>
             </section>
