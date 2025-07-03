@@ -30,8 +30,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // --------------------
     Route::get('/departamentos', [DepartamentosController::class, 'index'])->name('departamentos.index');
     Route::post('/departamentos', [DepartamentosController::class, 'store'])->name('departamentos.store');
-    Route::put('/departamentos/{id}', [DepartamentosController::class, 'update'])->name('departamentos.update');
-    Route::delete('/departamentos/{id}', [DepartamentosController::class, 'destroy'])->name('departamentos.destroy');
+    Route::put('/departamentos/{departamentos}', [DepartamentosController::class, 'update'])->name('departamentos.update');
+    Route::delete('/departamentos/{departamentos}', [DepartamentosController::class, 'destroy'])->name('departamentos.destroy');
 
     // --------------------
     // Rotas de USUARIOS
