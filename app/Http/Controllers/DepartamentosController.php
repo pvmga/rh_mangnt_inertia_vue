@@ -39,11 +39,11 @@ class DepartamentosController extends Controller
             'name' => 'required|string|min:5|max:255|unique:departamentos,name,' . $request->name,
         ]);
 
-        $departamento = Departamentos::create([
+        Departamentos::create([
             'name' => $validated['name'],
         ]);
 
-        return redirect()->route('departamentos.index')->with('success', 'Departamento cadastrado com sucesso.');
+        return redirect()->route('departamentos.index')->with('success', 'Departamento ('.$request->name.') cadastrado com sucesso.');
         // return response()->json($departamento, 201);
     }
 

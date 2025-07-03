@@ -108,11 +108,11 @@ const goToPage = (url) => {
     :show="showModalEditar"
     @close="showModalEditar = false"
     :modo-edicao="modoEdicao"
+    @confirmar="confirmarEdicao"
     :nome="nome"
     :email="email"
     v-model:nome="nome"
     v-model:email="email"
-    @confirmar="confirmarEdicao"
   />
 
   <div class="bg-white p-4 shadow sm:rounded-lg sm:p-8">

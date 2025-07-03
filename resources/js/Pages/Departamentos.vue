@@ -15,33 +15,70 @@ defineProps({ departamentos: Object })
 const showModalExcluir = ref(false)
 const showModalEditar = ref(false)
 
-const usuarioSelecionado = ref(null)
+const departamentoSelecionado = ref(null)
+const nome = ref('')
 const modoEdicao = ref(false)
 
 // Abrir modal de criação
 const abrirModalNovo = () => {
+  departamentoSelecionado.value = null
+  nome.value = ''
   modoEdicao.value = false
   showModalEditar.value = true
 }
 
 // Abrir modal de edição
-const abrirModalEditar = () => {
+const abrirModalEditar = (departamento) => {
+  departamentoSelecionado.value = departamento
+  nome.value = departamento.name
   modoEdicao.value = true
   showModalEditar.value = true
 }
 
 // Confimar criação ou edição
-const confirmarEdicao = (departamento) => {
-  console.log('Criar ou Editar')
+const confirmarEdicao = () => {
+
+  const payload = { name: nome.value }
+  // console.log(modoEdicao.value)
+  // console.log(nome.value)
+
+  if (modoEdicao.value) {
+    // edição
+    router.put(`departamentos/${departamentoSelecionado.value.id}`, payload, {
+      onSuccess: () => {
+          showModalEditar.value = false
+        },
+        onError: (errors) => {
+          console.log(errors)
+      }
+    })
+  } else {
+    // novo registro
+    router.post(`/departamentos`, payload, {
+      onSuccess: () => {
+          showModalEditar.value = false
+        },
+        onError: (errors) => {
+          console.log(errors)
+      }
+    })
+  }
+
+  
 }
 
 const abrirModalExcluir = (departamento) => {
-  usuarioSelecionado.value = departamento
+  departamentoSelecionado.value = departamento
   showModalExcluir.value = true
 }
 
 const confirmarExclusao = () => {
-  console.log('excluir')
+  router.delete(`/departamentos/${departamentoSelecionado.value.id}`, {
+    onSuccess: () => {
+      showModalExcluir.value = false
+      departamentoSelecionado.value = null
+    }
+  })
 }
 
 const goToPage = (url) => {
@@ -53,11 +90,19 @@ const goToPage = (url) => {
 
   <Head title="Departamentos" />
 
+  <div v-if="$page.props.flash.success" class="mb-4 text-green-600 font-medium">
+    {{ $page.props.flash.success }}
+  </div>
+
+  <div v-if="$page.props.flash.error" class="mb-4 text-red-600 font-medium">
+    {{ $page.props.flash.error }}
+  </div>
+
   <ModalConfirmarExclusao 
   :show="showModalExcluir"
   @close="showModalExcluir = false"
   @confirmar="confirmarExclusao"
-  :nome="usuarioSelecionado?.name"
+  :nome="departamentoSelecionado?.name"
   />
 
   <ModalEditarDepartamentos 
@@ -65,6 +110,8 @@ const goToPage = (url) => {
     @close="showModalEditar = false"
     :modo-edicao="modoEdicao"
     @confirmar="confirmarEdicao"
+    v-model:nome="nome"
+    :nome="nome"
   />
 
   <div class="bg-white p-4 shadow sm:rounded-lg sm:p-8">
